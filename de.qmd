@@ -1,0 +1,237 @@
+---
+title: "`r params$title`"
+format:
+  html:
+    toc: false
+    css: ["style.css"]
+    mainfont: Theinhardt
+    fontsize: "16px"
+    embed-resources: true
+    page-layout: custom
+    link-external-newwindow: true
+    footnotes-hover: true
+    fig-align: center
+    fig-format: retina
+    fig-dpi: 300
+language:
+  section-title-footnotes: "Fussnoten"
+params:
+  title: "Im Vergleich: SNF-Übergangsmassnahmen und EU-Ausschreibungen"
+  lead: "Von 2021 bis 2024 setzte der SNF Massnahmen um, die den Ausschluss der Schweizer Forschenden aus dem Programm Horizon Europe abfedern sollten. Unsere Analyse zeigt Unterschiede zwischen dem SNF und dem Europäischen Forschungsrat."
+  publication_date: "2025-11-25 04:00:00"
+  lang: de
+  use_theinhardt: false
+  reg_font_path: ""
+  bold_font_path: ""
+  it_font_path: ""
+  boldit_font_path: ""
+  doi_url: "https://doi.org/10.46446/datastory.horizon-europe-transitional-measures"
+  github_url: "https://github.com/snsf-data/datastory_horizon_europe_transitional_measures"
+execute:
+  echo: false
+  warning: false
+  message: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r general-setup}
+#| include: false
+
+# Install snf.datastory package if not available, otherwise load it
+if (!require("snf.datastory")) {
+  if (!require("devtools")) {
+    install.packages("devtools")
+    library(devtools)
+  }
+  install_github("snsf-data/snf.datastory")
+  library(snf.datastory)
+}
+
+# Load packages
+library(tidyverse)
+library(lubridate)
+library(scales)
+library(conflicted)
+library(here)
+library(showtext)
+library(systemfonts)
+library(dplyr)
+library(forcats)
+library(gt)
+library(readr)
+library(stringr)
+library(camcorder)
+library(ggbump)
+library(ggplot2)
+library(snf.datastory)
+library(tidyr)
+library(purrr)
+
+# Conflict preferences
+conflict_prefer("filter", "dplyr")
+conflict_prefer("get_datastory_theme", "snf.datastory")
+conflict_prefer("get_datastory_scheme", "snf.datastory")
+
+source("R/read_and_prepare_data.R")
+source("R/make_figures.R")
+source("R/translations.R")
+
+# Need if we want to use the registered font in ggiraph plots
+showtext_auto()
+
+# Increase showtext package font resolution
+showtext_opts(dpi = 300 * 2)
+
+# Set the locale for date formatting (Windows)
+Sys.setlocale(
+  "LC_TIME",
+  switch(
+    params$lang,
+    en = "English",
+    de = "German",
+    fr = "French"
+  )
+)
+
+# Knitr hook for local formatting of printed numbers
+knitr::knit_hooks$set(
+  inline = function(x) {
+    if (!is.numeric(x)) {
+      x
+    } else {
+      snf.datastory::print_num(x, params$lang)
+    }
+  }
+)
+
+```
+
+```{r print-header-infos}
+#| results: asis
+
+# Add publication date to header
+cat(format(as.Date(params$publication_date), "%d.%m.%Y"))
+```
+
+**`r params$lead`**
+
+Nachdem die Schweiz zwischen 2021 und 2024 von Teilen des Programms Horizon Europe ausgeschlossen war, lancierte der SNF im Auftrag des Bundes folgende Übergangsmassnahmen: SNSF Swiss Postdoctoral Fellowships, SNSF Starting Grants, SNSF Consolidator Grants und SNSF Advanced Grants. Ziel war es, die Forschenden in der Schweiz in dieser schwierigen Zeit zu unterstützen. 
+
+### Reges Interesse an Übergangsmassnahmen
+
+Die Forschenden in der Schweiz reichten für fast alle Übergangsmassnahmen des SNF mehr Gesuche ein als zuvor für die europäischen Ausschreibungen. Diese sehr hohe Zahl von Gesuchen sowie die im Vergleich zu Europa geringeren finanziellen Mittel hatten niedrigere Erfolgsquoten zur Folge.
+
+Im Rahmen der Übergangsmassnahmen bewilligte der SNF 582 Projekte mit einem Gesamtbudget von 611 Millionen Franken. An Forscherinnen gingen dabei 45,5% der zugesprochenen Mittel für 265 bewilligte Projekte^[Im Rahmen der Übergangsmassnahmen unterstützt der SNF 314 Projekte von männlichen Forschenden und 3 Projekte von nicht binären Forschenden. ]. Fast gleich viele Forscherinnen wie Forscher waren mit ihrem Gesuch erfolgreich.  
+
+::: plot-box
+<div class="plot-title">Übergangsmassnahmen: Beiträge an zahlreiche Projekte und eine starke Nachfrage</div>
+```{r plot-desktop-1}
+#| out-width: "100%"
+#| fig-height: 3.5
+
+make_figure_1()
+
+```
+:::
+
+ 
+
+### Weiterhin dieselben Institutionen an der Spitze
+
+Sowohl bei den Übergangsmassnahmen des SNF als auch bei den europäischen Ausschreibungen war die ETH Zürich die Schweizer Institution, die am meisten Mittel erhielt. Zwischen 2017 und 2020 gingen 79 Beiträge des Europäischen Forschungsrats (ERC)^[Der Europäische Forschungsrat ist für die folgenden Instrumente zuständig: ERC Starting Grants, ERC Consolidator Grants und ERC Advanced Grants. Die Marie Skłodowska-Curie Actions (MSCA) gehören hingegen nicht dazu. Die Zahlen in den beiden folgenden Kapiteln beinhalten daher weder die MSCA-Stipendien noch die entsprechenden SNSF Swiss Postdoctoral Fellowships. ] an die eidgenössische Hochschule. Bei den Übergangsmassnahmen des SNF waren es 48 (2021 bis 2024). 
+
+Die anderen Institutionen in den Top 5 sind bei SNF und ERC fast identisch, die Rangfolge unterscheidet sich nur geringfügig. 
+
+::: plot-box
+<div class="plot-title">Geringere Unterschiede zwischen den Institutionen bei den Übergangsmassnahmen </div>
+```{r plot-desktop-2}
+#| out-width: "100%"
+#| fig-height: 3.75
+
+make_figure_2()
+
+```
+:::
+
+  
+
+### SNF grosszügiger gegenüber Geistes- und Sozialwissenschaften 
+
+Wie verteilen sich die bewilligten Projekte auf die Forschungsbereiche? Bei den Übergangsmassnahmen des SNF verteilen sich die Beiträge sehr gleichmässig. 104 bewilligte Projekte stammten den Bereich Mathematik, Informatik, Naturwissenschaften und Technik, 98 aus den Lebenswissenschaften und 96 aus den Geistes- und Sozialwissenschaften. 
+
+Beim ERC resultierte für die Projekte von Schweizer Forschenden eine weniger gleichmässige Verteilung. Die meisten bewilligten Projekte entfielen auf den Bereich Mathematik, Informatik, Naturwissenschaften und Technik (139), gefolgt von den Lebenswissenschaften (103) und schliesslich den Geistes- und Sozialwissenschaften (33)^[Wie der SNF unterscheidet der ERC drei grosse Forschungsbereiche: Lebenswissenschaften, Physik- und Ingenieurwissenschaften sowie Sozial- und Geisteswissenschaften. Diese entsprechen jeweils den beim SNF verwendeten Bereichen LW (Lebenswissenschaften), MINT (Mathematik, Informatik, Naturwissenschaften und Technik) und GSW (Geistes- und Sozialwissenschaften).].  Dieses Ungleichgewicht lässt sich insbesondere durch die geringe Anzahl von Anträgen in den Geistes- und Sozialwissenschaften erklären, die von Forschenden aus der Schweiz eingereicht werden. So wurden beim ERC 297 Gesuche eingereicht, beim SNF dagegen 725 Gesuche.
+
+Diese geringe Teilnahme- und Erfolgsquote von Schweizer Forschenden aus dem Bereich der Geistes- und Sozialwissenschaften bei den Ausschreibungen des ERC war bereits aus dem Vorgängerprogramm von Horizon Europe bekannt (Horizon 2020). Der SNF hatte deshalb 2014 einen [Bericht](https://www.snf.ch/media/fr/cs6fnh6bmJKwuCml/news_140730_report_ssh_an_erc.pdf) in Auftrag gegeben (nur auf Deutsch verfügbar), der diese Situation analysierte. 
+
+Dank der Unterzeichnung des Abkommens zwischen der EU und der Schweiz (EUPA) vom 10. November 2025, ist die Schweiz wieder definitiv beim Forschungsprogramm Horizon Europe dabei. Die Änderung tritt rückwirkend per Anfang 2025 in Kraft. Deshalb wird es interessant sein, in einigen Jahren zu analysieren, ob diese niedrige Teilnahme- und Erfolgsquote in den Geistes- und Sozialwissenschaften noch aktuell ist. 
+
+::: plot-box
+<div class="plot-title">Geistes- und Sozialwissenschaften während der Übergangsmassnahmen besser vertreten</div>
+```{r plot-desktop-3}
+#| out-width: "100%"
+#| fig-height: 3
+
+make_figure_3()
+
+```
+:::
+
+ 
+
+### Fokus auf die Marie Skłodowska-Curie Actions 
+
+Diese Beiträge werden nicht vom Europäischen Forschungsrat vergeben. Trotzdem konnten Schweizer Forschende zwischen 2021 und 2024 auch für dieses Instrument keine Gesuche einreichen. Der SNF lancierte deshalb die Übergangsmassnahme SNSF Swiss Postdoctoral Fellowships als Ersatz in der Schweiz.
+
+Zwischen 2021 und 2024 reichten Forschende in der Schweiz mehr Gesuche beim SNF ein (2834) als zwischen 2017 und 2020 für die Marie Skłodowska-Curie Actions, kurz MSCA (1853). Da die Erfolgsquote bei den SNSF Swiss Postdoctoral Fellowships jedoch im Durchschnitt niedriger war (10%) als bei den MSCA (17,6%), konnten etwas weniger Forschende gefördert werden (284 bzw. 326). Das vom Bund für diese Übergangsmassnahme zur Verfügung gestellte Budget war begrenzt und konnte nicht mit den Mitteln von Horizon Europe mithalten, dem grössten Forschungsprogramm der Welt.
+
+::: plot-box
+<div class="plot-title">Geringe Erfolgsquote bei Postdoc-Stipendien aufgrund hoher Nachfrage</div>
+```{r plot-desktop-4}
+#| out-width: "100%"
+#| fig-height: 3.75
+
+make_figure_4()
+
+```
+:::
+
+Der SNF orientierte sich für die Ausgestaltung der Übergangsmassnahmen soweit wie möglich an den europäischen Ausschreibungen. Der fehlende europäische Wettbewerb und das geringere Renomée im Vergleich zu Horizon Europe begrenzten jedoch ihre Wirkung, sodass die negativen Folgen des Ausschlusses der Schweiz nicht vollständig kompensiert werden konnten. Die Übergangsmassnahmen unterstützten Forschende in der Schweiz dabei, ihre Projekte erfolgreich zu beenden.
+
+Die Annahme der bilateralen Abkommen III würde die Beteiligung der Schweiz an den EU-Programmen dauerhaft sichern. Gleichzeitig würden die Abkommen dazu beitragen, die Wettbewerbsfähigkeit der Schweiz zu stärken – ein Schlüsselfaktor für Fortschritte in der Forschung, aber auch für die Wirtschaft und die ganze Gesellschaft.
+
+::: info-box
+
+### Welche Daten haben wir verwendet?
+
+In dieser Datengeschichte vergleichen wir die Statistiken zu den vier wichtigsten Förderinstrumenten des SNF im Rahmen der Übergangsmassnahmen mit den entsprechenden Instrumenten des Programms Horizon Europe:
+
+- Marie Skłodowska-Curie Actions MSCA (Programm Horizon Europe) / SNSF Swiss Postdoctoral Fellowships (SNF)
+- Starting Grants (ERC) / SNSF Starting Grants (SNF)
+- Consolidator Grants (ERC) / SNSF Consolidator Grants (SNF)
+- Advanced Grants (ERC) / SNSF Advanced Grants (SNF)
+
+Für einen möglichst aussagekräftigen Vergleich haben wir Ausschreibungen aus zwei Vierjahresperioden herangezogen: 2017 bis 2020 für Horizon Europe und 2021 bis 2024 für den SNF.
+
+Die Daten des SNF beziehen sich auf alle eingereichten Projekte sowie auf die nach der Evaluation bewilligten Projekte. Die Datengeschichte bezieht sich auf die Quote der eingereichten bzw. bewilligten Projekte, weshalb nur aggregierte Daten zur Verfügung gestellt werden. Zu beachten ist, dass die Anzahl der Beiträge, die über das Tool «[Projektsuche](https://data.snf.ch/grants)» im SNF-Datenportal angezeigt werden, leicht geringer sein kann als die Zahl der in dieser Geschichte erwähnten Beiträge. Der Unterschied ist darauf zurückzuführen, dass die Suchmaschine keine Projekte einbezieht, die von den Beitragsempfangenden nach der Bewilligung zurückgezogen wurden. Die Daten der ERC-Instrumente wurden mit dem [ERC Scoreboard](https://dashboard.tech.ec.europa.eu/qs_digit_dashboard_mt/public/sense/app/c140622a-87e0-412e-8b29-9b5ddd857e13/sheet/61a0bd1d-cd6d-4ac8-8b55-80d8661e44c0/state/analysis) erhoben. Die Daten zu den Postdoctoral Fellowships Marie Skłodowska-Curie Actions wurden über die Dashboards von Horizon Europe [(evaluierte Projekte](https://dashboard.tech.ec.europa.eu/qs_digit_dashboard_mt/public/sense/app/28b39a3a-4d62-4180-9dfa-551489b06928/sheet/fa944260-9e39-410a-9bf5-326357748d0b/state/analysis) und [bewilligte P](https://dashboard.tech.ec.europa.eu/qs_digit_dashboard_mt/public/sense/app/d58f3864-d519-4f9f-855e-c34f9860acdd/sheet/7a2acdb7-ee97-4161-affe-302abc4888bb/state/analysis)[rojekte](https://dashboard.tech.ec.europa.eu/qs_digit_dashboard_mt/public/sense/app/28b39a3a-4d62-4180-9dfa-551489b06928/sheet/fa944260-9e39-410a-9bf5-326357748d0b/state/analysis)) gesammelt.
+
+:::
+
+Daten, Text und Code dieser Datengeschichte sind [auf Github verfügbar](`r params$github_url`) und [auf Zenodo archiviert](`r params$doi_url`). <br>DOI: `r str_remove(params$doi_url,"https://doi.org/")`
+
+```{r prevent-internal-snsf-packages}
+#| include: false
+
+# Internal SNSF packages must not be used in data stories, as their
+# pre-processing functions are internal and the corporate design differs from
+# the data portal.
+
+internal_pkg <- c("snfverse", "snf.preprocessing", "snf.plot")
+
+if (any(internal_pkg %in% loadedNamespaces())) {
+  stop(glue(
+    "You must not use internal SNSF packages in data stories.",
+    " Please resort to snf.datastory."
+  ))
+}
+```

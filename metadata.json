@@ -1,0 +1,25 @@
+[
+  {
+    "title_en": "How did the SNSF's transitional measures differ from European calls?",
+    "title_de": "Im Vergleich: SNF-Übergangsmassnahmen und EU-Ausschreibungen",
+    "title_fr": "Les mesures transitoires du FNS diffèrent-elles des appels européens ?",
+    "author_en": "Chloé Liechti, Communication, SNSF;Simon Gorin, Data Team, SNSF",
+    "author_de": "Chloé Liechti, Kommunikation, SNF;Simon Gorin, Data Team, SNF",
+    "author_fr": "Chloé Liechti, Communication, FNS;Simon Gorin, Data Team, FNS",
+    "datastory_category": "standard",
+    "publication_date_en": "2025-11-25 04:00:00",
+    "publication_date_de": "2025-11-25 04:00:00",
+    "publication_date_fr": "2025-11-25 04:00:00",
+    "languages": "en;de;fr",
+    "short_desc_en": "Between 2021 and 2024, the SNSF implemented measures to compensate for the exclusion of Swiss researchers from the Horizon Europe programme. Our analysis reveals differences between the SNSF and the European Research Council.",
+    "short_desc_de": "Von 2021 bis 2024 setzte der SNF Massnahmen um, die den Ausschluss der Schweizer Forschenden aus dem Programm Horizon Europe abfedern sollten. Unsere Analyse zeigt Unterschiede zwischen dem SNF und dem Europäischen Forschungsrat.",
+    "short_desc_fr": "Entre 2021 et 2024, le FNS a mis en place des mesures pour pallier l’exclusion des scientifiques suisses du programme Horizon Europe. Notre analyse révèle des différences entre le FNS et le Conseil européen de la recherche.",
+    "tags": "T120T,T130T,T140T,T230T,T240T",
+    "top_story": "false",
+    "github_url": "https://github.com/snsf-data/datastory_horizon_europe_transitional_measures",
+    "doi": "https://doi.org/10.46446/datastory.horizon-europe-transitional-measures",
+    "name_en": "horizon-europe-transitional-measures",
+    "name_de": "ubergangsmassnahmen-horizon-europe",
+    "name_fr": "mesures-transitoires-horizon-europe"
+  }
+]

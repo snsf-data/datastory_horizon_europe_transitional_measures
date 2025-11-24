@@ -1,0 +1,237 @@
+---
+title: "`r params$title`"
+format:
+  html:
+    toc: false
+    css: ["style.css"]
+    mainfont: Theinhardt
+    fontsize: "16px"
+    embed-resources: true
+    page-layout: custom
+    link-external-newwindow: true
+    footnotes-hover: true
+    fig-align: center
+    fig-format: retina
+    fig-dpi: 300
+language:
+  section-title-footnotes: "Notes de bas de page"
+params:
+  title: "Les mesures transitoires du FNS diffèrent-elles des appels européens ?"
+  lead: "Entre 2021 et 2024, le FNS a mis en place des mesures pour pallier l’exclusion des scientifiques suisses du programme Horizon Europe. Notre analyse révèle des différences entre le FNS et le Conseil européen de la recherche."
+  publication_date: "2025-11-25 04:00:00"
+  lang: fr
+  use_theinhardt: false
+  reg_font_path: ""
+  bold_font_path: ""
+  it_font_path: ""
+  boldit_font_path: ""
+  doi_url: "https://doi.org/10.46446/datastory.horizon-europe-transitional-measures"
+  github_url: "https://github.com/snsf-data/datastory_horizon_europe_transitional_measures"
+execute:
+  echo: false
+  warning: false
+  message: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r general-setup}
+#| include: false
+
+# Install snf.datastory package if not available, otherwise load it
+if (!require("snf.datastory")) {
+  if (!require("devtools")) {
+    install.packages("devtools")
+    library(devtools)
+  }
+  install_github("snsf-data/snf.datastory")
+  library(snf.datastory)
+}
+
+# Load packages
+library(tidyverse)
+library(lubridate)
+library(scales)
+library(conflicted)
+library(here)
+library(showtext)
+library(systemfonts)
+library(dplyr)
+library(forcats)
+library(gt)
+library(readr)
+library(stringr)
+library(camcorder)
+library(ggbump)
+library(ggplot2)
+library(snf.datastory)
+library(tidyr)
+library(purrr)
+
+# Conflict preferences
+conflict_prefer("filter", "dplyr")
+conflict_prefer("get_datastory_theme", "snf.datastory")
+conflict_prefer("get_datastory_scheme", "snf.datastory")
+
+source("R/read_and_prepare_data.R")
+source("R/make_figures.R")
+source("R/translations.R")
+
+# Need if we want to use the registered font in ggiraph plots
+showtext_auto()
+
+# Increase showtext package font resolution
+showtext_opts(dpi = 300 * 2)
+
+# Set the locale for date formatting (Windows)
+Sys.setlocale(
+  "LC_TIME",
+  switch(
+    params$lang,
+    en = "English",
+    de = "German",
+    fr = "French"
+  )
+)
+
+# Knitr hook for local formatting of printed numbers
+knitr::knit_hooks$set(
+  inline = function(x) {
+    if (!is.numeric(x)) {
+      x
+    } else {
+      snf.datastory::print_num(x, params$lang)
+    }
+  }
+)
+
+```
+
+```{r print-header-infos}
+#| results: asis
+
+# Add publication date to header
+cat(format(as.Date(params$publication_date), "%d.%m.%Y"))
+```
+
+**`r params$lead`**
+
+Suite à l’exclusion de la Suisse de certaines parts du programme Horizon Europe, entre 2021 et 2024, le FNS a mis en place plusieurs mesures transitoires sur mandat de la Confédération : SNSF Swiss Postdoctoral Fellowships, SNSF Starting Grants, SNSF Consolidator Grants et SNSF Advanced Grants. Celles-ci avaient pour but de soutenir les scientifiques de Suisse durant cette période difficile. 
+
+### Un grand intérêt pour les mesures transitoires
+
+Les scientifiques de Suisse ont déposé pour presque toutes les mesures transitoires du FNS plus de requêtes qu’ils n’en déposaient auparavant pour les mises au concours européennes. Ce nombre très élevé de demandes ainsi que la mise à disposition de moyens financiers moins importants qu’au niveau européen ont engendré des taux de succès plus bas.
+
+Dans le cadre des mesures transitoires, le FNS a approuvé 582 projets pour une enveloppe totale de 611 millions de francs. La part qui est revenue aux chercheuses est de 45,5 %, soit 265 projets approuvés^[Dans le cadre des mesures transitoires, le FNS soutient 314 projets de chercheurs hommes et 3 projets de scientifiques non-binaires. ]. Presque autant de chercheuses que de chercheurs ont vu leur projet accepté.  
+
+::: plot-box
+<div class="plot-title">Dans un contexte de forte demande, les mesures transitoires ont permis de soutenir un nombre élevé de projets </div>
+```{r plot-desktop-1}
+#| out-width: "100%"
+#| fig-height: 3.5
+
+make_figure_1()
+
+```
+:::
+
+ 
+
+### Toujours les mêmes institutions en tête 
+
+Qu’il s’agisse des mesures transitoires du FNS ou des appels européens, l’ETH Zurich est l’institution suisse qui reçoit toujours le plus de financement. Entre 2017 et 2020, la haute école fédérale a reçu 79 subsides de la part du Conseil européen de la recherche (CER)^[Le Conseil européen de la recherche comprend les instruments suivants : ERC Starting Grants, ERC Consolidator Grants et ERC Advanced Grants. Les Actions Marie Sklodowska-Curie (MSCA) n’en font pas partie. Les chiffres présentés dans les deux chapitres suivants n’incluent donc pas les bourses MSCA ainsi que, par conséquent, les SNSF Swiss Postdoctoral Fellowships. ] et 48 pour les mesures transitoires du FNS (2021 à 2024). 
+
+Les autres institutions dans le top 5 sont presque les mêmes pour le FNS et le CER. Leur classement ne varie que très légèrement. 
+
+::: plot-box
+<div class="plot-title">Les mesures transitoires réduisent les écarts de subsides entre les institutions les plus soutenues </div>
+```{r plot-desktop-2}
+#| out-width: "100%"
+#| fig-height: 3.75
+
+make_figure_2()
+
+```
+:::
+
+  
+
+### Le FNS plus généreux envers les sciences humaines et sociales 
+
+Comment se répartissent les projets approuvés entre les différents domaines de recherche ? Pour les mesures transitoires du FNS, la répartition est quasiment équitable. 104 projets concernent les mathématiques, informatique, sciences naturelles et technique, 98 les sciences de la vie et 96 les sciences humaines et sociales. 
+
+Du côté du CER, la répartition des projets des scientifiques suisses est moins égale. La plupart des projets approuvés le sont pour les mathématiques, informatique, sciences naturelles et technique (139), suivis des sciences de la vie (103) et enfin des sciences humaines et sociales (33)^[Comme le FNS, le CER reconnaît trois grands domaines de recherches : les sciences de la vie, les sciences physiques et de l’ingénierie, et les sciences sociales et humaines. Ces derniers correspondent respectivement aux domaines LS (sciences de la vie), MINT (mathématiques, informatique, sciences naturelles et technique) et SHS (sciences humaines et sociales) utilisés au FNS.]. Ce déséquilibre s’explique notamment par le nombre de requêtes peu élevé en sciences humaines et sociales que les scientifiques de Suisse déposent. En effet, 297 requêtes ont été soumises au CER contre 725 au FNS.
+
+Ces faibles taux de participation et de succès des scientifiques suisses du domaine des sciences humaines et sociales aux subsides du CER étaient déjà connus lors du programme qui a précédé Horizon Europe (Horizon 2020). Le FNS avait d’ailleurs commandé un [rapport en 2014](https://www.snf.ch/media/fr/cs6fnh6bmJKwuCml/news_140730_report_ssh_an_erc.pdf) (disponible uniquement en allemand) pour analyser cette situation. 
+
+Grâce à la signature de l’accord sur les programmes Suisse-UE (EUPA), le 10 novembre 2025, la Suisse est de nouveau définitivement associée au programme de recherche Horizon Europe, avec effet rétroactif au début 2025. Il serait donc intéressant d’analyser dans quelques années si ces faibles taux de participation et de succès en sciences humaines et sociales sont toujours d’actualité. 
+
+::: plot-box
+<div class="plot-title">Les sciences humaines et sociales mieux représentées durant les mesures transitoires</div>
+```{r plot-desktop-3}
+#| out-width: "100%"
+#| fig-height: 3
+
+make_figure_3()
+
+```
+:::
+
+ 
+
+### Zoom sur les Actions Marie Skłodowska-Curie 
+
+Ces subsides ne font pas partie du Conseil européen de la recherche. Toutefois, les scientifiques suisses n’ont quand même pas pu déposer de requêtes pour cet instrument entre 2021 et 2024. Le FNS a donc lancé la mesure transitoire SNSF Swiss Postdoctoral Fellowships pour les remplacer au niveau suisse.
+
+Entre 2021 et 2024, les scientifiques de Suisse ont déposé plus de requêtes auprès du FNS (2834) qu’ils ne le faisaient entre 2017 et 2020 pour les bourses postdoctorales (1853). Cependant, le taux de succès pour les SNSF Swiss Postdoctoral Fellowships étant en moyenne plus bas (10 %) que celui pour les MSCA (17,6 %), un peu moins de scientifiques ont pu être financés (284 contre 326). Le budget mis à disposition par la Confédération pour ces mesures transitoires était limité et ne permettait pas de rivaliser avec l’enveloppe dont dispose Horizon Europe, le plus grand programme de recherche au monde.
+
+::: plot-box
+<div class="plot-title">Faible taux de succès aux bourses postdoctorales dû à une demande élevée</div>
+```{r plot-desktop-4}
+#| out-width: "100%"
+#| fig-height: 3.75
+
+make_figure_4()
+
+```
+:::
+
+Les mesures transitoires mises en place par le FNS correspondaient autant que possible aux mises au concours européennes, sans être en mesure de les remplacer complètement. Elles n’ont pas permis de compenser les conséquences négatives de l’exclusion de la Suisse d’Horizon Europe. Il leur manquait en effet la compétitivité européenne ainsi que la réputation des instruments d’encouragement d’Horizon Europe. Ces mesures ont tout de même permis aux scientifiques de Suisse de continuer à être soutenus pendant cette période et de mener à bien leurs projets. 
+
+L’adoption des accords bilatéraux III pérenniserait notamment la participation de la Suisse aux programmes européens. Ces accords contribueraient également à renforcer la compétitivité de la Suisse, un facteur clé pour les progrès de la recherche, mais aussi pour l’économie et toute la société.
+
+::: info-box
+
+### Quelles données avons-nous utilisées ?
+
+Dans ce récit de données, nous comparons les statistiques de financement entre les quatre instruments majeurs mis en place par le FNS dans le cadre des mesures transitoires et leurs équivalents au sein du programme Horizon Europe :
+
+- Actions Marie Skłodowska-Curie (programme Horizon Europe) / SNSF Swiss Postdoctoral Fellowships (FNS)
+- Starting Grants (CER) / SNSF Starting Grants (FNS)
+- Consolidator Grants (CER) / SNSF Consolidator Grants (FNS)
+- Advanced Grants (CER) / SNSF Advanced Grants (FNS)
+
+Afin de permettre une comparaison équitable, nous avons utilisé les appels lancés sur des périodes de quatre ans : 2017 à 2020 pour Horizon Europe et 2021 à 2024 pour le FNS.
+
+Les données du FNS se réfèrent à tous les projets soumis ainsi que les projets approuvés après évaluation. Comme ce récit porte sur le taux de projets soumis et approuvés, seules des données agrégées sont mises à disposition. Il faut noter que le nombre de subsides trouvables via l’outil « [Recherche de projets](https://data.snf.ch/grants) » du Portail de données du FNS peut être légèrement inférieur à ceux reportés dans ce récit. La différence est due au fait que l’outil de recherche n’inclut pas les projets qui ont été retirés par leurs bénéficiaires après avoir été approuvés. Concernant les données des instruments du CER, celles-ci ont été collectées via le [tableau de bord du CER](https://dashboard.tech.ec.europa.eu/qs_digit_dashboard_mt/public/sense/app/c140622a-87e0-412e-8b29-9b5ddd857e13/sheet/61a0bd1d-cd6d-4ac8-8b55-80d8661e44c0/state/analysis). Les données relatives aux bourses postdoctorales Marie Skłodowska-Curie ont été collectées via les tableaux de bord de Horizon Europe ([projets évalués](https://dashboard.tech.ec.europa.eu/qs_digit_dashboard_mt/public/sense/app/28b39a3a-4d62-4180-9dfa-551489b06928/sheet/fa944260-9e39-410a-9bf5-326357748d0b/state/analysis) et [projets financés](https://dashboard.tech.ec.europa.eu/qs_digit_dashboard_mt/public/sense/app/d58f3864-d519-4f9f-855e-c34f9860acdd/sheet/7a2acdb7-ee97-4161-affe-302abc4888bb/state/analysis)).
+
+:::
+
+Les données, le texte et le code de ce récit de données sont [disponibles sur Github](`r params$github_url`) et [archivés sur Zenodo](`r params$doi_url`). <br>DOI: `r str_remove(params$doi_url, "https://doi.org/")`
+
+```{r prevent-internal-snsf-packages}
+#| include: false
+
+# Internal SNSF packages must not be used in data stories, as their
+# pre-processing functions are internal and the corporate design differs from
+# the data portal.
+
+internal_pkg <- c("snfverse", "snf.preprocessing", "snf.plot")
+
+if (any(internal_pkg %in% loadedNamespaces())) {
+  stop(glue(
+    "You must not use internal SNSF packages in data stories.",
+    " Please resort to snf.datastory."
+  ))
+}
+```

@@ -1,0 +1,37 @@
+call_year,instrument,research_domain,n_requested
+2017,Advanced Grants,Social sciences & humanities (SH),10
+2018,Advanced Grants,Social sciences & humanities (SH),11
+2019,Advanced Grants,Social sciences & humanities (SH),15
+2020,Advanced Grants,Social sciences & humanities (SH),28
+2017,Consolidator Grants,Social sciences & humanities (SH),20
+2018,Consolidator Grants,Social sciences & humanities (SH),24
+2019,Consolidator Grants,Social sciences & humanities (SH),26
+2020,Consolidator Grants,Social sciences & humanities (SH),37
+2017,Starting Grants,Social sciences & humanities (SH),34
+2018,Starting Grants,Social sciences & humanities (SH),26
+2019,Starting Grants,Social sciences & humanities (SH),34
+2020,Starting Grants,Social sciences & humanities (SH),32
+2017,Advanced Grants,Life Sciences (LS),32
+2018,Advanced Grants,Life Sciences (LS),38
+2019,Advanced Grants,Life Sciences (LS),40
+2020,Advanced Grants,Life Sciences (LS),47
+2017,Consolidator Grants,Life Sciences (LS),30
+2018,Consolidator Grants,Life Sciences (LS),28
+2019,Consolidator Grants,Life Sciences (LS),41
+2020,Consolidator Grants,Life Sciences (LS),35
+2017,Starting Grants,Life Sciences (LS),46
+2018,Starting Grants,Life Sciences (LS),56
+2019,Starting Grants,Life Sciences (LS),34
+2020,Starting Grants,Life Sciences (LS),63
+2017,Advanced Grants,Physical sciences & engineering (PE),41
+2018,Advanced Grants,Physical sciences & engineering (PE),38
+2019,Advanced Grants,Physical sciences & engineering (PE),38
+2020,Advanced Grants,Physical sciences & engineering (PE),34
+2017,Consolidator Grants,Physical sciences & engineering (PE),34
+2018,Consolidator Grants,Physical sciences & engineering (PE),50
+2019,Consolidator Grants,Physical sciences & engineering (PE),43
+2020,Consolidator Grants,Physical sciences & engineering (PE),55
+2017,Starting Grants,Physical sciences & engineering (PE),62
+2018,Starting Grants,Physical sciences & engineering (PE),45
+2019,Starting Grants,Physical sciences & engineering (PE),63
+2020,Starting Grants,Physical sciences & engineering (PE),92

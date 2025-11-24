@@ -1,0 +1,237 @@
+---
+title: "`r params$title`"
+format:
+  html:
+    toc: false
+    css: ["style.css"]
+    mainfont: Theinhardt
+    fontsize: "16px"
+    embed-resources: true
+    page-layout: custom
+    link-external-newwindow: true
+    footnotes-hover: true
+    fig-align: center
+    fig-format: retina
+    fig-dpi: 300
+language:
+  section-title-footnotes: "Footnotes"
+params:
+  title: "How did the SNSF's transitional measures differ from European calls?"
+  lead: "Between 2021 and 2024, the SNSF implemented measures to compensate for the exclusion of Swiss researchers from the Horizon Europe programme. Our analysis reveals differences between the SNSF and the European Research Council."
+  publication_date: "2025-11-25 04:00:00"
+  lang: en
+  use_theinhardt: false
+  reg_font_path: ""
+  bold_font_path: ""
+  it_font_path: ""
+  boldit_font_path: ""
+  doi_url: "https://doi.org/10.46446/datastory.horizon-europe-transitional-measures"
+  github_url: "https://github.com/snsf-data/datastory_horizon_europe_transitional_measures"
+execute:
+  echo: false
+  warning: false
+  message: false
+editor_options:
+  chunk_output_type: console
+---
+
+```{r general-setup}
+#| include: false
+
+# Install snf.datastory package if not available, otherwise load it
+if (!require("snf.datastory")) {
+  if (!require("devtools")) {
+    install.packages("devtools")
+    library(devtools)
+  }
+  install_github("snsf-data/snf.datastory")
+  library(snf.datastory)
+}
+
+# Load packages
+library(tidyverse)
+library(lubridate)
+library(scales)
+library(conflicted)
+library(here)
+library(showtext)
+library(systemfonts)
+library(dplyr)
+library(forcats)
+library(gt)
+library(readr)
+library(stringr)
+library(camcorder)
+library(ggbump)
+library(ggplot2)
+library(snf.datastory)
+library(tidyr)
+library(purrr)
+
+# Conflict preferences
+conflict_prefer("filter", "dplyr")
+conflict_prefer("get_datastory_theme", "snf.datastory")
+conflict_prefer("get_datastory_scheme", "snf.datastory")
+
+source("R/read_and_prepare_data.R")
+source("R/make_figures.R")
+source("R/translations.R")
+
+# Need if we want to use the registered font in ggiraph plots
+showtext_auto()
+
+# Increase showtext package font resolution
+showtext_opts(dpi = 300 * 2)
+
+# Set the locale for date formatting (Windows)
+Sys.setlocale(
+  "LC_TIME",
+  switch(
+    params$lang,
+    en = "English",
+    de = "German",
+    fr = "French"
+  )
+)
+
+# Knitr hook for local formatting of printed numbers
+knitr::knit_hooks$set(
+  inline = function(x) {
+    if (!is.numeric(x)) {
+      x
+    } else {
+      snf.datastory::print_num(x, params$lang)
+    }
+  }
+)
+
+```
+
+```{r print-header-infos}
+#| results: asis
+
+# Add publication date to header
+cat(format(as.Date(params$publication_date), "%d.%m.%Y"))
+```
+
+**`r params$lead`**
+
+Following Switzerland's exclusion from certain parts of the Horizon Europe programme, from 2021 to 2024, the SNSF implemented several transitional measures on behalf of the Swiss Confederation: SNSF Swiss Postdoctoral Fellowships, SNSF Starting Grants, SNSF Consolidator Grants and SNSF Advanced Grants. The aim was to support Swiss researchers during this challenging period. 
+
+### Strong interest in transitional measures
+
+Swiss researchers submitted more applications to almost all of the SNSF transitional measures than they had previously to European calls. The very high number of applications and the fact that fewer financial resources were available than at the European level resulted in lower success rates.
+
+As part of the transitional measures, the SNSF funded 582 projects to the tune of 611 million Swiss francs. Female researchers received 45.5% of the total budget, with 265 approved projects.^[As part of the transitional measures, the SNSF funded 314 projects by male researchers and 3 projects by non-binary researchers. ] Almost as many female researchers as male researchers had their projects accepted.  
+
+::: plot-box
+<div class="plot-title">Amidst high demand, the transitional measures made it possible to support a large number of projects</div>
+```{r plot-desktop-1}
+#| out-width: "100%"
+#| fig-height: 3.5
+
+make_figure_1()
+
+```
+:::
+
+ 
+
+### The same institutions always in the lead 
+
+Whether via the SNSF transitional measures or the European calls for proposals, ETH Zurich is the Swiss institution that consistently receives the most funding. The Swiss Federal Institute of Technology received 79 grants from the European Research Council (ERC) between 2017 and 2020^[The European Research Council coordinates the following funding schemes: ERC Starting Grants, ERC Consolidator Grants and ERC Advanced Grants. Marie Sklodowska-Curie Actions (MSCA) are not included. The figures presented in the following two sections therefore do not include MSCA fellowships, nor their counterpart, the SNSF Swiss Postdoctoral Fellowships. ] and 48 as part of the SNSF's transitional measures (2021 to 2024). 
+
+The other institutions in the top 5 are largely the same for the SNSF and the ERC. Their ranking varies only slightly. 
+
+::: plot-box
+<div class="plot-title">The transitional measures reduced funding disparities between the most heavily supported institutions </div>
+```{r plot-desktop-2}
+#| out-width: "100%"
+#| fig-height: 3.75
+
+make_figure_2()
+
+```
+:::
+
+  
+
+### The SNSF was more generous towards the social sciences and humanities 
+
+How did the different research domains fare in terms of approved projects? For the SNSF transitional measures, the distribution was relatively even. 104 projects concerned mathematics, informatics, natural sciences and technology, 98 life sciences and 96 social sciences and humanities. 
+
+The ERC's distribution of projects awarded to Swiss researchers was less even. The majority of the approved projects were in the domain of mathematics, informatics, natural sciences and technology (139), followed by life sciences (103) and social sciences and humanities (33).^[Like the SNSF, the ERC recognises three main research domains: life sciences, physical sciences and engineering, and social sciences and humanities. These correspond respectively to the LS (life sciences), MINT (mathematics, informatics, natural sciences and technology) and SSH (social sciences and humanities) domains used by the SNSF.] This imbalance can in large part be explained by the low number of applications submitted by Swiss researchers in the social sciences and humanities. In fact, only 297 SSH applications were submitted to the ERC, compared with 725 to the SNSF.
+
+The low participation rate and limited success of Swiss researchers in the social sciences and humanities in ERC grants was already recognised during the framework programme that preceded Horizon Europe (Horizon 2020). The SNSF commissioned a [report already in 2014](https://www.snf.ch/media/fr/cs6fnh6bmJKwuCml/news_140730_report_ssh_an_erc.pdf) (available only in German) to analyse this situation.[](https://www.snf.ch/media/fr/cs6fnh6bmJKwuCml/news_140730_report_ssh_an_erc.pdf) 
+
+Thanks to the signature of the EU Programmes Agreement (EUPA) on 10 November 2025, Switzerland is once again definitively associated to Horizon Europe, with retroactive effect from the beginning of 2025. It will be interesting to see in a few years' time whether the low participation and success rates in the social sciences and humanities persist. 
+
+::: plot-box
+<div class="plot-title">Social sciences and humanities better represented during the transitional measures</div>
+```{r plot-desktop-3}
+#| out-width: "100%"
+#| fig-height: 3
+
+make_figure_3()
+
+```
+:::
+
+ 
+
+### Focus on Marie Skłodowska-Curie Actions 
+
+These grants are not part of the European Research Council portfolio. Nevertheless, Swiss researchers were not able to apply to this funding scheme between 2021 and 2024. The SNSF launched SNSF Swiss Postdoctoral Fellowships as a transitional measure to replace them at the Swiss level.
+
+Swiss researchers submitted more postdoctoral fellowship applications to the SNSF between 2021 and 2024 (2,834) than they did to the corresponding European calls between 2017 and 2020 (1,853). However, since the success rate for SNSF Swiss Postdoctoral Fellowships was on average lower (10%) than that for MSCA (17.6%), slightly fewer researchers could be funded (284 compared with 326). The budget provided by the Swiss Confederation for these transitional measures was limited and could not compete with the budget of Horizon Europe, the largest research programme in the world.
+
+::: plot-box
+<div class="plot-title">Low success rate for postdoctoral fellowships due to high demand</div>
+```{r plot-desktop-4}
+#| out-width: "100%"
+#| fig-height: 3.75
+
+make_figure_4()
+
+```
+:::
+
+The transitional measures put in place by the SNSF corresponded as closely as possible to the European calls, without being able to replace them completely. The measures could not compensate for the negative consequences of Switzerland's exclusion from Horizon Europe. What they lacked was competitiveness at the European level and the reputation of Horizon Europe's funding schemes. These measures nevertheless enabled Swiss researchers to continue to receive funding during this period and to complete their projects.
+
+The adoption of the bilateral agreements III ensures Switzerland's continued participation in European programmes. These agreements also help to strengthen Switzerland's competitiveness, a key factor not only for progress in research, but also for the Swiss economy and society as a whole.
+
+::: info-box
+
+### What data did we use?
+
+In this data story, we compare funding statistics between the four major funding schemes set up by the SNSF as part of the transitional measures and their equivalents within the Horizon Europe programme:
+
+- Marie Skłodowska-Curie Actions (Horizon Europe programme) / SNSF Swiss Postdoctoral Fellowships (SNSF)
+- Starting Grants (ERC) / SNSF Starting Grants (SNSF)
+- Consolidator Grants (ERC) / SNSF Consolidator Grants (SNSF)
+- Advanced Grants (ERC) / SNSF Advanced Grants (SNSF)
+
+To allow for a fair comparison, we used calls launched over four-year periods: 2017 to 2020 for Horizon Europe and 2021 to 2024 for the SNSF.
+
+The SNSF data refers to all submitted projects in addition to the projects approved following the evaluation process. As this story focuses on the rate of submitted and approved projects, only aggregated data is available. It should be noted that the number of grants that can be found via the "[Project search](https://data.snf.ch/grants)" tool of the SNSF Data Portal may be slightly lower than those reported in this data story. This difference is due to the fact that the search tool does not include projects that were withdrawn by their beneficiaries after approval. Data about the ERC's funding schemes was collected via the ERC's dashboard.[](https://dashboard.tech.ec.europa.eu/qs_digit_dashboard_mt/public/sense/app/c140622a-87e0-412e-8b29-9b5ddd857e13/sheet/61a0bd1d-cd6d-4ac8-8b55-80d8661e44c0/state/analysis) Data on Marie Skłodowska-Curie Actions was collected via the Horizon Europe dashboards ([projects evaluated](https://dashboard.tech.ec.europa.eu/qs_digit_dashboard_mt/public/sense/app/28b39a3a-4d62-4180-9dfa-551489b06928/sheet/fa944260-9e39-410a-9bf5-326357748d0b/state/analysis) and [projects funded](https://dashboard.tech.ec.europa.eu/qs_digit_dashboard_mt/public/sense/app/d58f3864-d519-4f9f-855e-c34f9860acdd/sheet/7a2acdb7-ee97-4161-affe-302abc4888bb/state/analysis)).
+
+:::
+
+Data, text and code of this data story are [available on Github](`r params$github_url`) and [archived on Zenodo](`r params$doi_url`).<br>DOI: `r str_remove(params$doi_url, "https://doi.org/")`
+
+```{r prevent-internal-snsf-packages}
+#| include: false
+
+# Internal SNSF packages must not be used in data stories, as their
+# pre-processing functions are internal and the corporate design differs from
+# the data portal.
+
+internal_pkg <- c("snfverse", "snf.preprocessing", "snf.plot")
+
+if (any(internal_pkg %in% loadedNamespaces())) {
+  stop(glue(
+    "You must not use internal SNSF packages in data stories.",
+    " Please resort to snf.datastory."
+  ))
+}
+```
