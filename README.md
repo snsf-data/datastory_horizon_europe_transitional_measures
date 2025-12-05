@@ -10,6 +10,8 @@
 
 **Publication date**: 25.11.2025
 
+> **/!\\ The data story has been adjusted compared to its original publication to exclude the 25% contribution to indirect research costs (overhead) from ERC funding, in order to allow for a fairer comparison to SNSF funding, which does not include overhead. /!\\**
+
 # Data description
 
 The data used in this data story are available in the folder `data`. The files (`data/msca_swiss.csv`, `data/erc_data.csv`, `data/erc_proposals_by_domain_and_year.csv`, `data/snsf_sr_summary.csv`, `data/snsf_amount_institutions.csv`, and `data/figure_translations.csv`) contain funding statistics from the Marie Skłodowska-Curie Actions and the European Research Council for the period 2017–2020, as well as SNSF's Horizon Europe transitional measures for the period 2021–2024. Note that the "Quantum Transitional Call" and the "Swiss Quantum Call 2024" are note included in this data story.
@@ -23,7 +25,7 @@ Summary data about the Marie Skłodowska-Curie Actions for the period 2017-2020.
 -   Call ID: "MSCA-IF-201"7, "MSCA-IF-2018", "MSCA-IF-2019", "MSCA-IF-2020"
 -   Type of Action: all, except "Global Fellowships" (GF)
 
-Here is a list of the variables available in ` msca_swiss.csv`.
+Here is a list of the variables available in `msca_swiss.csv`.
 
 -   `call_year`: the `Year` variable in the Horizon dashboard
 -   `instrument`: the instrument (always "Marie Sklodowska Curie Actions")
