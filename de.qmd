@@ -116,11 +116,21 @@ cat(format(as.Date(params$publication_date), "%d.%m.%Y"))
 
 **`r params$lead`**
 
+::: info-box
+::: info-box-update-p
+
+Diese Datengeschichte wurde seit ihrer Erstveröffentlichung überarbeitet^[In der überarbeiteten Fassung dieser Datengeschichte wurde Abbildung 2 angepasst: Der 25 % Overhead auf die ERC-Fördermittel wurde entfernt, um einen faireren Vergleich mit den SNF-Beiträgen zu ermöglichen, die keinen Overhead enthalten. Zudem wurde der Abschnittstitel in Ausgewogene Verteilung über die Forschungsbereiche geändert, und es wird hervorgehoben, dass die Förderentscheide des SNF einem strengen Evaluationsverfahren unterliegen.].
+
+:::
+:::
+
 Nachdem die Schweiz zwischen 2021 und 2024 von Teilen des Programms Horizon Europe ausgeschlossen war, lancierte der SNF im Auftrag des Bundes folgende Übergangsmassnahmen: SNSF Swiss Postdoctoral Fellowships, SNSF Starting Grants, SNSF Consolidator Grants und SNSF Advanced Grants. Ziel war es, die Forschenden in der Schweiz in dieser schwierigen Zeit zu unterstützen. 
 
 ### Reges Interesse an Übergangsmassnahmen
 
 Die Forschenden in der Schweiz reichten für fast alle Übergangsmassnahmen des SNF mehr Gesuche ein als zuvor für die europäischen Ausschreibungen. Diese sehr hohe Zahl von Gesuchen sowie die im Vergleich zu Europa geringeren finanziellen Mittel hatten niedrigere Erfolgsquoten zur Folge.
+
+Zur Bewertung der im Rahmen der Übergangsmassnahmen eingereichten Gesuche hat der SNF [sein strenges Evaluationsverfahren](https://www.snf.ch/de/6cs2wnfJtcfFDL6o/seite/evaluationsverfahren) angewandt.
 
 Im Rahmen der Übergangsmassnahmen bewilligte der SNF 582 Projekte mit einem Gesamtbudget von 611 Millionen Franken. An Forscherinnen gingen dabei 45,5% der zugesprochenen Mittel für 265 bewilligte Projekte^[Im Rahmen der Übergangsmassnahmen unterstützt der SNF 314 Projekte von männlichen Forschenden und 3 Projekte von nicht binären Forschenden. ]. Fast gleich viele Forscherinnen wie Forscher waren mit ihrem Gesuch erfolgreich.  
 
@@ -152,13 +162,14 @@ Die anderen Institutionen in den Top 5 sind bei SNF und ERC fast identisch, die 
 make_figure_2()
 
 ```
+::: caption
+Die vom ERC bereitgestellten Fördermittel beinhalten einen Anteil von 25 % für indirekte Forschungskosten (Overhead). Im Gegensatz dazu enthalten die vom SNF bereitgestellten Mittel keinen Overhead. Aus diesem Grund wurden in der Abbildung bei den ERC-Beiträgen die 25 % Overhead abgezogen.
+:::
 :::
 
-  
+### Ausgewogene Verteilung über die Forschungsbereiche
 
-### SNF grosszügiger gegenüber Geistes- und Sozialwissenschaften 
-
-Wie verteilen sich die bewilligten Projekte auf die Forschungsbereiche? Bei den Übergangsmassnahmen des SNF verteilen sich die Beiträge sehr gleichmässig. 104 bewilligte Projekte stammten den Bereich Mathematik, Informatik, Naturwissenschaften und Technik, 98 aus den Lebenswissenschaften und 96 aus den Geistes- und Sozialwissenschaften. 
+Wie verteilen sich die bewilligten Projekte auf die Forschungsbereiche? Bei den Übergangsmassnahmen des SNF verteilen sich die Beiträge sehr gleichmässig. 104 bewilligte Projekte stammten aus dem Bereich Mathematik, Informatik, Naturwissenschaften und Technik, 98 aus den Lebenswissenschaften und 96 aus den Geistes- und Sozialwissenschaften. 
 
 Beim ERC resultierte für die Projekte von Schweizer Forschenden eine weniger gleichmässige Verteilung. Die meisten bewilligten Projekte entfielen auf den Bereich Mathematik, Informatik, Naturwissenschaften und Technik (139), gefolgt von den Lebenswissenschaften (103) und schliesslich den Geistes- und Sozialwissenschaften (33)^[Wie der SNF unterscheidet der ERC drei grosse Forschungsbereiche: Lebenswissenschaften, Physik- und Ingenieurwissenschaften sowie Sozial- und Geisteswissenschaften. Diese entsprechen jeweils den beim SNF verwendeten Bereichen LW (Lebenswissenschaften), MINT (Mathematik, Informatik, Naturwissenschaften und Technik) und GSW (Geistes- und Sozialwissenschaften).].  Dieses Ungleichgewicht lässt sich insbesondere durch die geringe Anzahl von Anträgen in den Geistes- und Sozialwissenschaften erklären, die von Forschenden aus der Schweiz eingereicht werden. So wurden beim ERC 297 Gesuche eingereicht, beim SNF dagegen 725 Gesuche.
 

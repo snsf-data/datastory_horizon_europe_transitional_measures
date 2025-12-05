@@ -114,6 +114,11 @@ li {
   margin: 1em 0;
 }
 
+.info-box-update-p p {
+  color: black;
+  margin: 1em 0;
+}
+
 .doi-box {
   border: none;
   padding: 0;

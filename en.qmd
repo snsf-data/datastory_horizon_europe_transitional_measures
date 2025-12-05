@@ -116,11 +116,21 @@ cat(format(as.Date(params$publication_date), "%d.%m.%Y"))
 
 **`r params$lead`**
 
+::: info-box
+::: info-box-update-p
+
+This data story has been modified since its original publication^[In this modified version of the data story, the second figure has been adjusted to exclude the 25% contribution to indirect research costs (overhead) from ERC funding, in order to allow for a fairer comparison to SNSF funding, which does not include overhead. We have also updated the title of the section “Equitable distribution across research domains”. Finally, we have highlighted that SNSF funding decisions follow a rigorous evaluation procedure.].
+
+:::
+:::
+
 Following Switzerland's exclusion from certain parts of the Horizon Europe programme, from 2021 to 2024, the SNSF implemented several transitional measures on behalf of the Swiss Confederation: SNSF Swiss Postdoctoral Fellowships, SNSF Starting Grants, SNSF Consolidator Grants and SNSF Advanced Grants. The aim was to support Swiss researchers during this challenging period. 
 
 ### Strong interest in transitional measures
 
 Swiss researchers submitted more applications to almost all of the SNSF transitional measures than they had previously to European calls. The very high number of applications and the fact that fewer financial resources were available than at the European level resulted in lower success rates.
+
+To evaluate the applications submitted under the transitional measures, the SNSF followed [its standard rigorous evaluation procedure](https://www.snf.ch/en/6cs2wnfJtcfFDL6o/page/evaluation-procedure).
 
 As part of the transitional measures, the SNSF funded 582 projects to the tune of 611 million Swiss francs. Female researchers received 45.5% of the total budget, with 265 approved projects.^[As part of the transitional measures, the SNSF funded 314 projects by male researchers and 3 projects by non-binary researchers. ] Almost as many female researchers as male researchers had their projects accepted.  
 
@@ -152,11 +162,13 @@ The other institutions in the top 5 are largely the same for the SNSF and the ER
 make_figure_2()
 
 ```
+::: caption
+The amounts from the ERC include a 25% contribution to indirect research costs (overhead), whereas the amounts from the SNSF do not include overhead. Consequently, the 25% overhead has been deducted from the ERC amounts in this figure.
+:::
 :::
 
-  
 
-### The SNSF was more generous towards the social sciences and humanities 
+### Equitable distribution across research domains
 
 How did the different research domains fare in terms of approved projects? For the SNSF transitional measures, the distribution was relatively even. 104 projects concerned mathematics, informatics, natural sciences and technology, 98 life sciences and 96 social sciences and humanities. 
 

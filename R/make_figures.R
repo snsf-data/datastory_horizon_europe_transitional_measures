@@ -89,6 +89,9 @@ make_figure_2 <- function(height = NULL) {
     # Keep only the institution in any top 5
     filter(research_institution %in% top_5) |>
     mutate(
+      amount_granted = if_else(
+        str_starts(agency, "ERC"), amount_granted * 0.75, amount_granted
+      ),
       agency = fct_relabel(agency, \(x) translate(x, fig_labels)),
       research_institution = if_else(
         research_institution == "University of Berne",
@@ -187,12 +190,12 @@ make_figure_2 <- function(height = NULL) {
     scale_color_datastory() +
     scale_x_discrete(expand = ggplot2::expansion(mult = c(0.15, 0.5))) +
     scale_y_continuous(
-      limits = c(0, 180),
+      limits = c(0, 140),
       n.breaks = 9,
       labels = \(x) paste(
         ifelse(params$lang == "en", "CHF ", ""),
         x, translate(fig_labels$Million$en, fig_labels)
-        )
+      )
     ) +
     labs(y = translate(fig_labels$`Total amount approuved`$en, fig_labels)) +
     get_datastory_theme(legend_position = "right", title_axis = "y")

@@ -116,11 +116,21 @@ cat(format(as.Date(params$publication_date), "%d.%m.%Y"))
 
 **`r params$lead`**
 
+::: info-box
+::: info-box-update-p
+
+Ce récit de données a été modifié depuis sa première publication^[Dans cette version modifiée du récit de données, la deuxième figure a été adaptée pour ne pas inclure les 25% de contribution aux coûts indirects de la recherche (overhead) des montants provenant de l’ERC, ceci afin de permettre une comparaison plus juste avec les montants provenant du FNS qui n’incluent pas d’overhead. Nous avons également mis à jour le titre de la section “Répartition équitable entre les domaines de recherche”. Finalement, nous avons mis en évidence que les décisions de financement du FNS suivent une procédure d’évaluation rigoureuse.].
+
+:::
+:::
+
 Suite à l’exclusion de la Suisse de certaines parts du programme Horizon Europe, entre 2021 et 2024, le FNS a mis en place plusieurs mesures transitoires sur mandat de la Confédération : SNSF Swiss Postdoctoral Fellowships, SNSF Starting Grants, SNSF Consolidator Grants et SNSF Advanced Grants. Celles-ci avaient pour but de soutenir les scientifiques de Suisse durant cette période difficile. 
 
 ### Un grand intérêt pour les mesures transitoires
 
 Les scientifiques de Suisse ont déposé pour presque toutes les mesures transitoires du FNS plus de requêtes qu’ils n’en déposaient auparavant pour les mises au concours européennes. Ce nombre très élevé de demandes ainsi que la mise à disposition de moyens financiers moins importants qu’au niveau européen ont engendré des taux de succès plus bas.
+
+Pour évaluer les requêtes soumises dans le cadre des mesures transitoires, le FNS a suivi [sa procédure d’évaluation rigoureuse habituelle](https://www.snf.ch/fr/6cs2wnfJtcfFDL6o/page/procedure-devaluation).
 
 Dans le cadre des mesures transitoires, le FNS a approuvé 582 projets pour une enveloppe totale de 611 millions de francs. La part qui est revenue aux chercheuses est de 45,5 %, soit 265 projets approuvés^[Dans le cadre des mesures transitoires, le FNS soutient 314 projets de chercheurs hommes et 3 projets de scientifiques non-binaires. ]. Presque autant de chercheuses que de chercheurs ont vu leur projet accepté.  
 
@@ -152,11 +162,12 @@ Les autres institutions dans le top 5 sont presque les mêmes pour le FNS et le 
 make_figure_2()
 
 ```
+::: caption
+Les montants issus du CER contiennent 25% de contribution aux coûts indirects de la recherche (overhead), alors que les montants issus du FNS n’incluent pas d’overhead. Par conséquent, les 25% d’overhead ont été retiré dans la figure pour les montants du CER.
+:::
 :::
 
-  
-
-### Le FNS plus généreux envers les sciences humaines et sociales 
+### Répartition équitable entre les domaines de recherche
 
 Comment se répartissent les projets approuvés entre les différents domaines de recherche ? Pour les mesures transitoires du FNS, la répartition est quasiment équitable. 104 projets concernent les mathématiques, informatique, sciences naturelles et technique, 98 les sciences de la vie et 96 les sciences humaines et sociales. 
 
